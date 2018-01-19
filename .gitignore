@@ -1,0 +1,5 @@
+! .gitkeep
+*.bak
+*.log
+*~
+/desktop.ini
