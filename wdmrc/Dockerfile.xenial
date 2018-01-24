@@ -1,0 +1,29 @@
+FROM ubuntu:xenial
+LABEL maintainer="ivandeex@gmail.com"
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get -qq update \
+ && apt-get -qy install --no-install-recommends apt-utils debconf-utils \
+ && apt-get -qy upgrade \
+ && apt-get -qy install --no-install-recommends sudo curl unzip tzdata mono-complete \
+ && apt-get -qy autoremove \
+ && apt-get -qy autoclean \
+ && apt-get -qy clean \
+ && apt-get -qy clean all \
+ && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+ARG WDMRC_VERS=1.8.1.2
+ARG WDMRC_PREF=WebDAVCloudMailRu-
+ARG WDMRC_SUFF=-dotNet45
+ARG WDMRC_REPO=https://github.com/yar229/WebDavMailRuCloud/releases/download
+
+RUN curl -skLo /tmp/wdmrc-core.zip ${WDMRC_REPO}/${WDMRC_VERS}/${WDMRC_PREF}${WDMRC_VERS}${WDMRC_SUFF}.zip \
+ && mkdir -p /opt/wdmrc \
+ && unzip /tmp/wdmrc-core.zip -d /opt/wdmrc \
+ && chown -R root:root /opt/wdmrc \
+ && rm -f /tmp/*
+
+EXPOSE 801
+WORKDIR /opt/wdmrc
+CMD exec mono ./wdmrc.exe -p 801 -h http://*
+
