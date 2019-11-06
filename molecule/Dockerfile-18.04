@@ -1,34 +1,27 @@
 FROM ubuntu:18.04
-LABEL maintainer="Jeff Geerling"
+LABEL maintainer="Ivan Andreev"
 
-ENV pip_packages "ansible"
+# Install dependencies
+RUN set -eux \
+    && apt-get update \
+    && apt-get install -q -y --no-install-recommends \
+        systemd dbus systemd-cron \
+        software-properties-common \
+        sudo iproute2 iputils-ping dnsutils \
+        locales apt-utils \
+        rsyslog \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /usr/share/doc /usr/share/man
 
-# Install dependencies.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       apt-utils \
-       locales \
-       python-setuptools \
-       python-pip \
-       software-properties-common \
-       rsyslog systemd systemd-cron sudo iproute2 \
-    && rm -Rf /var/lib/apt/lists/* \
-    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-    && apt-get clean
+# Adapt rsyslog for docker
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 
 # Fix potential UTF-8 errors with ansible-test.
 RUN locale-gen en_US.UTF-8
 
-# Install Ansible via Pip.
-RUN pip install $pip_packages
-
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
-
-# Install Ansible inventory file.
-RUN mkdir -p /etc/ansible
-RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
 CMD ["/lib/systemd/systemd"]

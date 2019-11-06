@@ -8,10 +8,10 @@ case "$ALIAS_CMD" in
 esac
 
 case "$1" in
-    list )
+    list)
         exec service --status-all
         ;;
-    reload-configuration )
+    reload-configuration)
         exec service $2 restart
         ;;
     start|stop|restart|reload|status)
