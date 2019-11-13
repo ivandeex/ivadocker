@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 LABEL maintainer="Ivan Andreev"
 
-# Install dependencies
+# Install dependencies (keep lists)
 RUN set -eux \
     && apt-get update \
     && apt-get install -q -y --no-install-recommends \
@@ -11,7 +11,7 @@ RUN set -eux \
         locales \
         rsyslog \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
+    && echo rm -rf /var/lib/apt/lists/* \
     && rm -rf /usr/share/doc /usr/share/man
 
 # Adapt rsyslog for docker
