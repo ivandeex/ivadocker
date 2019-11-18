@@ -27,6 +27,8 @@ RUN set -eux \
     && usermod -aG sudo ansible \
     && sed -i "/^%sudo/s/ALL\$/NOPASSWD:ALL/g" /etc/sudoers
 
+# Setup systemd
+ENV container docker
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
 
