@@ -28,6 +28,11 @@ RUN set -eux \
     && usermod -aG sudo ansible \
     && sed -i "/^%sudo/s/ALL\$/NOPASSWD:ALL/g" /etc/sudoers
 
+# Prevent high CPU zombie agetty with molecule
+# https://github.com/geerlingguy/docker-ubuntu1804-ansible/issues/9
+RUN rm -f /lib/systemd/system/systemd*udev* ; \
+    rm -f /lib/systemd/system/getty.target
+
 # Setup systemd
 ENV container docker
 COPY initctl_faker .
