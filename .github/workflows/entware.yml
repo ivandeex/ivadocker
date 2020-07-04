@@ -20,13 +20,16 @@ jobs:
         uses: actions/checkout@master
 
       - name: Build and Push
-        uses: docker/build-push-action@v1
-        with:
-          username: ivandeex
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ivandeex/entware
-          path: entware
-          tags: latest
-          tag_with_ref: true
-          tag_with_sha: true
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ivandeex --password-stdin
+          repo=ivandeex/entware
+          tm=`date +%y%m%d%H%M`
+          docker build -t $repo:latest entware
+          docker tag $repo:latest $repo:$tm
+          for i in `seq 3`; do
+            docker push $repo:$tm    || continue
+            docker push $repo:latest || continue
+            break
+          done
+          echo ok
 ...
