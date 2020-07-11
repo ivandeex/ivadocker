@@ -1,0 +1,13 @@
+---
+version: "3"
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 7070:8080
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+...

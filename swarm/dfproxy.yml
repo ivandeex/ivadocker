@@ -1,0 +1,57 @@
+---
+# Docker Flow Proxy
+# Consul for Service Discovery
+# https://github.com/docker-flow/docker-flow-proxy
+# https://attx-project.github.io/Consul-for-Service-Discovery-on-Docker-Swarm.html
+version: '3.3'
+services:
+  proxy:
+    image: vfarcic/docker-flow-proxy
+    ports:
+      - 8000:80
+      - 3030:443
+      - 8080:8080
+    networks:
+      - proxy
+    environment:
+      MODE: swarm
+      CONSUL_ADDRESS: ${X_CONSUL_ADDR}
+  listener:
+    image: vfarcic/docker-flow-swarm-listener
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+    environment:
+      DF_NOTIFY_CREATE_SERVICE_URL: http://proxy:8080/v1/docker-flow-proxy/reconfigure \
+      DF_NOTIFY_REMOVE_SERVICE_URL: http://proxy:8080/v1/docker-flow-proxy/remove
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+  hashiui:
+    image: jippi/hashi-ui
+    ports:
+      - 3000:3000
+    environment:
+      CONSUL_ENABLE: 1
+      NOMAD_ENABLE: 1
+      CONSUL_ADDR: ${X_CONSUL_ADDR}
+      NOMAD_ADDR: http://${X_NOMAD_ADDR}
+  testservice:
+    image: nginx
+    ports:
+      - 8003:80
+    networks:
+      - proxy
+    labels:
+      com.df.port: 8003
+      com.df.notify: 'true'
+      com.df.distribute: 'true'
+      com.df.servicePath: /p/health,/p/0.1/index
+      com.df.reqPathSearch: /p/
+      com.df.reqPathReplace: /
+networks:
+  proxy:
+    driver: overlay
+...

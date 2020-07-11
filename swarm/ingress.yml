@@ -1,0 +1,21 @@
+version: '3'
+services:
+  traefik:
+    image: traefik:1.6-alpine
+    command: --api --docker --docker.swarmMode --docker.watch --metrics.prometheus
+    # Enables web UI and listens to docker
+    ports:
+      - "880:80"    # HTTP port
+      - "3030:8080" # Web UI (--api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # listen to Docker events
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - traefik-net
+networks:
+  traefik-net:
+    external: true
+    # docker network create traefik-net --scope swarm -d overlay

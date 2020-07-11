@@ -1,0 +1,37 @@
+---
+# Registrator: Service registry for Docker
+# Consul for Service Discovery
+# https://gliderlabs.github.io/registrator
+version: '3.3'
+services:
+  registrator:
+    image: gliderlabs/registrator:latest
+    command:
+      # internal is required for swarm
+      #- -internal
+      - -cleanup
+      - -resync=10
+      - consul://localhost:8500
+      #- consulkv://localhost:8500/testrc
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    networks: [host]
+    deploy:
+      mode: global
+  testservice:
+    image: nginx
+    labels:
+      SERVICE_80_NAME: test-classic-svc
+      SERVICE_80_TAGS: test-classic-tag
+      SERVICE_80_KEY1: test-classic-val1
+    ports:
+      - target: 80
+        published: 8003
+        mode: host
+    deploy:
+      mode: global
+networks:
+  host:
+    external:
+      name: host
+...

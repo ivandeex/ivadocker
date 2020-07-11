@@ -1,0 +1,29 @@
+---
+# https://github.com/jippi/hashi-ui
+version: '3.3'
+services:
+  hashi-ui:
+    image: jippi/hashi-ui:latest
+    ports:
+      - target: 3030
+        published: 3000
+        mode: host
+    networks:
+      - host
+    environment:
+      CONSUL_ENABLE: 1
+      NOMAD_ENABLE: 0
+      CONSUL_ADDR: localhost:8500
+      NOMAD_ADDR: http://localhost:4646
+    labels:
+      SERVICE_IGNORE: 'true'
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role==manager
+networks:
+  host:
+    external:
+      name: host
+...
