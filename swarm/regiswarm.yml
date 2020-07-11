@@ -1,0 +1,38 @@
+---
+# Registrator: Service registry for Docker
+# Consul for Service Discovery
+# https://github.com/gliderlabs/registrator/pull/588
+version: '3.3'
+services:
+  registrator:
+    image: marcuslinke/registrator:2019-03-28
+    command:
+      - -cleanup
+      - -resync=30
+      - -swarm-manager-servicename=swarm
+      - consul://localhost:8500
+      #- consulkv://localhost:8500/testrs
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    networks: [host]
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+          - node.hostname==hardy
+  testswarm:
+    image: nginx
+    ports:
+      - 7071:80
+    deploy:
+      replicas: 2
+      labels:
+        SERVICE_80_NAME: test-swarm-svc
+        SERVICE_80_TAGS: test-swarm-tag
+        SERVICE_80_KEY1: val1
+        SERVICE_80_KEY2: val2
+networks:
+  host:
+    external:
+      name: host
+...

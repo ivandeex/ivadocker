@@ -1,0 +1,14 @@
+---
+version: '3'
+services:
+  heimdall:
+    image: linuxserver/heimdall:latest
+    ports: [9999:80]
+    volumes: [${HOME}/var/heimdall:/config]
+    environment:
+      PUID: 1000
+      PGID: 1000
+    deploy:
+      placement:
+        constraints: [node.hostname == hardy]
+...

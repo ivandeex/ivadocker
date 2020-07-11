@@ -1,0 +1,15 @@
+---
+# https://github.com/jippi/hashi-ui
+version: '3.3'
+services:
+  hashi-ui:
+    image: jippi/hashi-ui:latest
+    ports: [3030:3000]
+    environment:
+      CONSUL_ENABLE: 1
+      NOMAD_ENABLE: 0
+      CONSUL_ADDR: ${X_CONSUL_ADDR}
+      NOMAD_ADDR: http://${X_NOMAD_ADDR}
+    labels:
+      SERVICE_IGNORE: 'true'
+...
