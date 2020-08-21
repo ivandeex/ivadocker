@@ -13,4 +13,6 @@ services:
       placement:
         # live near our data files
         constraints: [node.hostname == hardy]
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
 ...
