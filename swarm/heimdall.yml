@@ -11,4 +11,6 @@ services:
     deploy:
       placement:
         constraints: [node.hostname == hardy]
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
 ...

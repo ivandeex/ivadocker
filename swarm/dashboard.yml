@@ -12,4 +12,6 @@ services:
       placement:
         constraints:
           - node.role == manager
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
 ...
