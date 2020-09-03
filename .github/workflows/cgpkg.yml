@@ -1,0 +1,26 @@
+---
+name: create cgpkg container
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+    paths:
+      - 'cgpkg/**'
+  pull_request:
+
+jobs:
+  cgpkg:
+    name: build and push image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Build and Push
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ivandeex --password-stdin
+          ./cgpkg/build.sh
+...
