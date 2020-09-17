@@ -30,13 +30,13 @@ RUN     set -x && \
         apt-get -qy clean && apt-get -qy clean all && \
         rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-ARG     WDMRC_VERS=1.10.7.10
+ARG     WDMRC_VERS=1.11.0.31
 ARG     WDMRC_REPO=https://github.com/yar229/WebDavMailRuCloud/releases/download
 ARG     WDMRC_HOME=/opt/runner
 
 RUN     set -x && \
         curl -sLo /tmp/wdmrc.zip \
-             $WDMRC_REPO/$WDMRC_VERS/WebDAVCloudMailRu-$WDMRC_VERS-dotNet461.zip && \
+             $WDMRC_REPO/$WDMRC_VERS/WebDAVCloudMailRu-$WDMRC_VERS-dotNet48.zip && \
         mkdir -p $WDMRC_HOME && \
         useradd -d $WDMRC_HOME runner && \
         unzip /tmp/wdmrc.zip -d $WDMRC_HOME && \
@@ -49,4 +49,3 @@ EXPOSE  8810
 #USER    runner
 
 ENTRYPOINT [ "/entrypoint.sh" ]
-
