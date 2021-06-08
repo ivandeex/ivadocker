@@ -1,16 +1,30 @@
 ---
-version: '3'
+version: '3.4'
 services:
   heimdall:
     image: linuxserver/heimdall:latest
     ports: [9999:80]
-    volumes: [${HOME}/var/heimdall:/config]
-    environment:
-      PUID: 1000
-      PGID: 1000
-    deploy:
-      placement:
-        constraints: [node.hostname == hardy]
+    volumes: [mrcry:/config]
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
+    healthcheck:
+      test: ["CMD", "/bin/ls", "/config"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+volumes:
+  jotta:
+    driver: rclone
+    driver_opts:
+      remote: jotta:heimdall
+      allow_other: 'true'
+      vfs_cache_mode: writes
+  mrcry:
+    driver: rclone
+    driver_opts:
+      remote: mrcry:heimdall
+      allow_other: 'true'
+      vfs_cache_mode: full
+      dir_cache_time: 1m
+      poll_interval: 0
 ...
