@@ -1,0 +1,40 @@
+---
+version: '3.2'
+services:
+  siad:
+    image: nebulouslabs/sia:latest
+    environment:
+      SIA_MODULES: gctwrfa
+      SIA_API_PASSWORD:
+    ports:
+      # port 9980 must be accessible on localhost but secured externally
+      - target: 9980
+        published: 9980
+        protocol: tcp
+        mode: host
+      # ports 9981-9984 must be open externally
+      - 9981:9981
+      - 9982:9982
+      - 9983:9983
+      - 9984:9984
+    volumes:
+      - local:/sia-data
+    deploy:
+      placement:
+        constraints: [node.hostname == hardy]
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+volumes:
+  rclone:
+    driver: rclone
+    driver_opts:
+      remote: 'siad:'
+      allow_other: 'true'
+      vfs_cache_mode: 'off'
+  local:
+    driver: local
+    driver_opts:
+      device: /mnt/sia-volume/siad
+      type: none
+      o: bind
+...
