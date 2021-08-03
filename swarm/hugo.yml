@@ -1,0 +1,20 @@
+---
+version: "3.3"
+services:
+  server:
+    image: klakegg/hugo:ext
+    command: server -v -w --disableFastRender
+    ports:
+      - target: 1313
+        published: 1313
+        protocol: tcp
+        mode: host
+    volumes:
+      - ${HOME}/rclone:/src
+    working_dir: /src/docs
+    user: "1000:1000"
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == hardy
+...
