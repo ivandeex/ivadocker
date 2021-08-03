@@ -18,23 +18,18 @@ services:
       - 9983:9983
       - 9984:9984
     volumes:
-      - local:/sia-data
+      - keen:/sia-data
     deploy:
       placement:
         constraints: [node.hostname == hardy]
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
 volumes:
-  rclone:
-    driver: rclone
+  keen:
+    driver: vieux/sshfs
     driver_opts:
-      remote: 'siad:'
-      allow_other: 'true'
-      vfs_cache_mode: 'off'
-  local:
-    driver: local
-    driver_opts:
-      device: /mnt/sia-volume/siad
-      type: none
-      o: bind
+      sshcmd: root@10.33.3.11:/tmp/mnt/4g-all/sia/siad
+      port: 32322
+      identityFile: /root/.ssh/deex1.key
+      cache: 'no'
 ...
