@@ -1,0 +1,27 @@
+---
+version: "3.9"
+services:
+  zeronet:
+    image: nofish/zeronet
+    environment:
+      UI_HOST: ${ZERONET_UI_HOST:-127.0.0.1:43110}
+      EXT_IPV4: ${ZERONET_NODE_IPV4:-127.0.0.1}
+      EXT_IPV6: ${ZERONET_NODE_IPV6:-::1}
+    command: ["sh", "-c", "(tor&) && exec python3 zeronet.py --ui_host $$UI_HOST --ui_ip 0.0.0.0 --fileserver_port 26552 --ip_external $$EXT_IPV4 $$EXT_IPV6"]
+    volumes:
+      - ${ZERONET_DATA_DIR:-/var/lib/zeronet}:/root/data
+    ports:
+      - 43110:43110
+      - 26552:26552
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == $ZERONET_NODE_NAME
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    healthcheck:
+      test: ["CMD", "/bin/ls", "/root/data"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+...
