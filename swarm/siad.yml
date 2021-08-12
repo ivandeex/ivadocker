@@ -2,10 +2,10 @@
 version: '3.2'
 services:
   siad:
-    image: nebulouslabs/sia:latest
+    image: ghcr.io/siafoundation/siad:master
     environment:
-      SIA_MODULES: gctwrfa
       SIA_API_PASSWORD:
+    command: -M gctwrfa
     ports:
       # port 9980 must be accessible on localhost but secured externally
       - target: 9980
