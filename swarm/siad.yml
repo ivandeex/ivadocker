@@ -18,25 +18,10 @@ services:
       - 9983:9983
       - 9984:9984
     volumes:
-      - orca:/sia-data
+      - ${HOME}/sia/siad:/sia-data
     deploy:
       placement:
-        constraints: [node.hostname == hardy]
+        constraints: [node.hostname == ampere]
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
-volumes:
-  orca:
-    driver: vieux/sshfs
-    driver_opts:
-      sshcmd: ubuntu@orca.deex.fun:/home/ubuntu/sia/siad
-      port: 22
-      identityFile: /root/.ssh/deex1.key
-      cache: 'no'
-  keen:
-    driver: vieux/sshfs
-    driver_opts:
-      sshcmd: root@10.33.3.11:/tmp/mnt/4g-all/sia/siad
-      port: 32322
-      identityFile: /root/.ssh/deex1.key
-      cache: 'no'
 ...
