@@ -9,10 +9,11 @@ services:
     environment:
       PORT: 4040
     deploy:
+      replicas: 3
       placement:
+        max_replicas_per_node: 1
         constraints:
           - node.role == manager
-          - node.hostname == orca
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
 networks:
