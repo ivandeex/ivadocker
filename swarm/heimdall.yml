@@ -12,6 +12,10 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == orca
 volumes:
   jotta:
     driver: rclone

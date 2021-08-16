@@ -12,6 +12,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.hostname == orca
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
 ...
