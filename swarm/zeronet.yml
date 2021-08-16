@@ -24,4 +24,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+networks:
+  default:
+    name: backbone
+    external: true
 ...

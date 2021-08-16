@@ -1,5 +1,5 @@
 ---
-version: '3.2'
+version: '3.9'
 services:
   siad:
     image: ghcr.io/siafoundation/siad:master
@@ -24,4 +24,8 @@ services:
         constraints: [node.hostname == ampere]
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
+networks:
+  default:
+    name: backbone
+    external: true
 ...

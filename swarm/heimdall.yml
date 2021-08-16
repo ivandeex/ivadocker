@@ -1,5 +1,5 @@
 ---
-version: '3.4'
+version: '3.9'
 services:
   heimdall:
     image: linuxserver/heimdall:latest
@@ -31,4 +31,8 @@ volumes:
       vfs_cache_mode: full
       dir_cache_time: 1m
       poll_interval: 0
+networks:
+  default:
+    name: backbone
+    external: true
 ...
