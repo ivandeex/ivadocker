@@ -2,7 +2,7 @@
 version: '3.9'
 services:
   heimdall:
-    image: linuxserver/heimdall:latest
+    image: cr.vanko.io/linuxserver/heimdall:latest
     ports: [9999:80]
     volumes: [mrcry:/config]
     labels:

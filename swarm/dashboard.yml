@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   dashboard:
-    image: charypar/swarm-dashboard:latest
+    image: cr.vanko.io/charypar/swarm-dashboard:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:

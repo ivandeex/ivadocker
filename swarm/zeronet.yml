@@ -2,7 +2,7 @@
 version: "3.9"
 services:
   zeronet:
-    image: nofish/zeronet
+    image: cr.vanko.io/nofish/zeronet
     environment:
       UI_HOST: ${ZERONET_UI_HOST:-127.0.0.1:43110}
       EXT_IPV4: ${ZERONET_NODE_IPV4:-127.0.0.1}

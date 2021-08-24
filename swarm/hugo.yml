@@ -2,7 +2,7 @@
 version: "3.9"
 services:
   server:
-    image: klakegg/hugo:ext
+    image: cr.vanko.io/klakegg/hugo:ext
     command: server -v -w --disableFastRender
     ports:
       - target: 1313
