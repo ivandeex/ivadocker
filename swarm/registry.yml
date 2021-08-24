@@ -1,0 +1,20 @@
+---
+# docker container registry
+version: '3.9'
+services:
+  registry:
+    image: registry:2
+    ports:
+      - 5000:5000
+    volumes:
+      - ${HOME}/var/registry/conf:/etc/docker/registry
+      - ${HOME}/var/registry/data:/var/lib/registry
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == orca
+networks:
+  default:
+    name: backbone
+    external: true
+...
