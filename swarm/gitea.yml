@@ -1,0 +1,25 @@
+---
+version: "3.9"
+services:
+  server:
+    image: cr.vanko.io/gitea/gitea:1.15.0
+    environment:
+      - USER=git
+      - USER_UID=1001
+      - USER_GID=1001
+    volumes:
+      - ${HOME}/var/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "33080:3000"
+      - "33022:22"
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == orca
+networks:
+  default:
+    name: backbone
+    external: true
+...
