@@ -4,7 +4,9 @@ services:
   heimdall:
     image: cr.vanko.io/linuxserver/heimdall:latest
     ports: [9999:80]
-    volumes: [mrcry:/config]
+    volumes:
+      - ${HOME}/var/heimdall:/config
+      # mrcry:/config
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     healthcheck:
@@ -17,12 +19,6 @@ services:
         constraints:
           - node.hostname == orca
 volumes:
-  jotta:
-    driver: rclone
-    driver_opts:
-      remote: jotta:heimdall
-      allow_other: 'true'
-      vfs_cache_mode: writes
   mrcry:
     driver: rclone
     driver_opts:
