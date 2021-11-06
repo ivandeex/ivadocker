@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   dashboard:
-    image: cr.vanko.io/charypar/swarm-dashboard:latest
+    image: charypar/swarm-dashboard:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -9,11 +9,9 @@ services:
     environment:
       PORT: 4040
     deploy:
-      replicas: 3
       placement:
         max_replicas_per_node: 1
-        constraints:
-          - node.role == manager
+        constraints: [node.role == manager]
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
 networks:

@@ -2,7 +2,7 @@
 version: '3.9'
 services:
   heimdall:
-    image: cr.vanko.io/linuxserver/heimdall:latest
+    image: linuxserver/heimdall:latest
     ports: [9999:80]
     volumes:
       - ${HOME}/var/heimdall:/config
@@ -17,7 +17,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == orca
+          - node.hostname == hardy
 volumes:
   mrcry:
     driver: rclone
