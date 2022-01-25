@@ -2,7 +2,7 @@
 version: '3.9'
 services:
   siad:
-    image: ghcr.io/siafoundation/siad:1.5.7
+    image: ghcr.io/siafoundation/siad:master
     environment:
       SIA_API_PASSWORD:
     command: -M gctwrfa
