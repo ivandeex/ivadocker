@@ -1,7 +1,7 @@
 #!/bin/sh
 set -x
 user=ivandeex
-tags="16.04 18.04 20.04"
+tags="16.04 18.04 20.04 22.04"
 docker buildx create --name molecule-builder --use
 for tag in $tags ; do
   docker buildx build \
