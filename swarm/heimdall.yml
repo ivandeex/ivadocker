@@ -17,7 +17,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ampere
+          - node.hostname == hardy
 volumes:
   mrcry:
     driver: rclone

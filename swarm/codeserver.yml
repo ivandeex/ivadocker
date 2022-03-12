@@ -6,25 +6,25 @@ services:
     ports:
       - 7878:8080
     volumes:
-      - /home/ubuntu/.config/code-server:/home/coder/.config/code-server
-      - /home/ubuntu/.local/share/code-server:/home/coder/.local/share/code-server
+      - /home/deex/.config/code-server:/home/coder/.config/code-server
+      - /home/deex/.local/share/code-server:/home/coder/.local/share/code-server
       - /usr/lib/go-1.17:/usr/lib/go-1.17
       - /usr/share/go-1.17:/usr/share/go-1.17
       - /home/ubuntu/go:/go
-      - /home/ubuntu/devel:/home/coder/devel
-      - /home/ubuntu/devel:/home/coder/prj
-    user: "1001:1001"
+      - /home/deex/devel:/home/coder/devel
+      - /home/deex/devel:/home/coder/prj
+    user: "1000:1000"
     hostname: codeserver
     environment:
       GOROOT: /usr/lib/go-1.17
       GOPATH: /go
       PATH: /go/bin:/usr/lib/go-1.17/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      DOCKER_USER: ubuntu
+      DOCKER_USER: deex
       GOPROXY: https://proxy.golang.org
     deploy:
       placement:
         constraints:
-          - node.hostname == ampere
+          - node.hostname == hardy
 networks:
   default:
     name: backbone
